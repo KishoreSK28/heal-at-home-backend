@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Physio Panel{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+    }
+    header {
+      background: #0f6f6c;
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1000;
+    }
+
+    /* Desktop Nav */
+    nav {
+      display: flex;
+      align-items: center;
+    }
+    nav a {
+      color: white;
+      margin-left: 16px;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 0;
+    }
+
+    /* Mobile Menu Toggle (Hidden by default) */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+    }
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+    }
+    #nav-check {
+      display: none;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex; /* Show hamburger on mobile */
+      }
+
+      nav {
+        display: none; /* Hide standard nav */
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #0f6f6c;
+        padding-bottom: 20px;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+      }
+
+      nav a {
+        margin: 0;
+        padding: 15px 24px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Toggle logic: when checkbox is checked, show nav */
+      #nav-check:checked ~ nav {
+        display: flex;
+      }
+    }
+
+    /* --- YOUR ORIGINAL STYLES (Keep exactly as they were) --- */
+    main {
+      padding: 32px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    @media (max-width: 600px) {
+      main { padding: 16px; }
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+    th {
+      background: #f9fafb;
+    }
+    button {
+      background: #0f6f6c;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button.danger {
+      background: #dc2626;
+    }
+    .dashboard-grid {
+      display: grid;
+      gap: 32px;
+    }
+    .card-soft {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    }
+    .card-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    .modern-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .modern-table thead th {
+      background: #f9fafb;
+      text-align: left;
+      font-size: 13px;
+      text-transform: uppercase;
+      color: #6b7280;
+      padding: 14px;
+    }
+    .modern-table td {
+      padding: 14px;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
+    }
+    .badge {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .badge.success { background: #ecfdf5; color: #047857; }
+    .badge.danger { background: #fef2f2; color: #b91c1c; }
+    .action-group {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-outline {
+      border: 1px solid #0f766e;
+      background: transparent;
+      color: #0f766e;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn-whatsapp {
+      background: #25d366;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div><strong>HealAtHome Physio</strong></div>
+  
+  <input type="checkbox" id="nav-check">
+  <label for="nav-check" class="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </label>
+
+  <nav>
+    <a href="/panel/dashboard/">Dashboard</a>
+    <a href="/panel/appointments/">Appointments</a>
+    <a href="/panel/availability/">Availability</a>
+    <a href="/panel/logout/">Logout</a>
+  </nav>
+</header>
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

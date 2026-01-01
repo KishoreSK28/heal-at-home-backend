@@ -1,0 +1,181 @@
+{% extends "admin_panel/base.html" %} {% block title %}Appointments{% endblock %} {% block content %}
+<style>
+  /* Standard Desktop Layout */
+  .table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+  }
+  .action-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Mobile Responsive View (Stacked Cards) */
+  @media (max-width: 768px) {
+    .modern-table thead {
+      display: none; /* Hide headers on mobile */
+    }
+
+    .modern-table,
+    .modern-table tbody,
+    .modern-table tr,
+    .modern-table td {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .modern-table tr {
+      margin-bottom: 20px;
+      border: 1px solid #eee;
+      border-radius: 15px;
+      padding: 15px;
+      background: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .modern-table td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border: none;
+      border-bottom: 2px solid #e5e7eb;
+      text-align: right;
+    }
+
+    /* Column Labels */
+    .modern-table td::before {
+      content: attr(data-label);
+      font-weight: 700;
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    /* Message specific styling */
+    .message-cell {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: #fdfdfd;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+    .message-cell::before {
+      margin-bottom: 5px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Fix for the buttons being cut off */
+    .modern-table td:last-child {
+      border-bottom: none;
+      display: block;
+      padding: 15px 0 5px 0; /* Extra bottom padding */
+    }
+
+    .action-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px; /* Gap between buttons */
+      width: 100%;
+    }
+
+    .action-group form,
+    .btn-outline,
+    .btn-whatsapp {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      min-height: 45px; /* Ensures buttons are finger-friendly */
+      margin: 0 !important;
+      box-sizing: border-box;
+      border-radius: 8px;
+    }
+  }
+</style>
+
+<div class="card card-soft">
+  <h2 class="card-title">📞 Appointment Requests</h2>
+
+  <div class="table-wrapper">
+    <table class="table modern-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Service</th>
+          <th>Message</th>
+          <th>Status</th>
+          <th style="text-align: center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for a in appointments %}
+        <tr>
+          <td data-label="Name"><strong>{{ a.full_name }}</strong></td>
+          <td data-label="Phone">{{ a.phone_number }}</td>
+          <td data-label="Service">{{ a.get_service_display }}</td>
+          <td data-label="Message" class="message-cell">{{ a.message }}</td>
+
+          <td data-label="Status">
+            {% if a.is_contacted %}
+            <span class="badge success">✅ Contacted</span>
+            {% else %}
+            <span class="badge danger">⏳ Not Contacted</span>
+            {% endif %}
+          </td>
+
+          <td>
+            <div class="action-group">
+              <form
+                method="post"
+                action="{% url 'toggle_contacted' a.id %}"
+                style="width: 100%"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn-outline">
+                  {% if a.is_contacted %} Mark Not Contacted {% else %} Mark
+                  Contacted {% endif %}
+                </button>
+              </form>
+
+              <a
+                class="btn-whatsapp"
+                href="https://wa.me/91{{ a.phone_number|cut:' ' }}?text={{ a.wa_text }}"
+                target="_blank"
+              >
+                💬 WhatsApp
+              </a>
+              <form
+                method="post"
+                action="{% url 'delete_appointment' a.id %}"
+                onsubmit="return confirm('Are you sure you want to delete this appointment?');"
+              >
+                {% csrf_token %}
+                <button style="background-color: red">🗑 Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td
+            colspan="6"
+            style="text-align: center; color: #6b7280; padding: 20px"
+          >
+            No appointment requests yet
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

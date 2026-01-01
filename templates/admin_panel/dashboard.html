@@ -1,0 +1,42 @@
+{% extends "admin_panel/base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+
+  <!-- Welcome Card -->
+  <div class="card card-soft">
+    <h2 class="card-title">👋 Welcome</h2>
+    <p class="muted-text">
+      Hello <strong>{{ request.user.username }}</strong>, manage your clinic from here.
+    </p>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="card card-soft">
+    <h2 class="card-title">📊 Quick Stats</h2>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-label">Total Appointments:</span>
+        <span class="stat-value">{{ total_appointments }}</span>
+      </div>
+
+      <div class="stat-box">
+        <span class="stat-label">Pending Requests:</span>
+        <span class="stat-value danger">{{ pending_requests }}</span>
+      </div>
+
+      <div class="stat-box">
+        <span class="stat-label">Today Availability:</span>
+        {% if is_available %}
+          <span class="badge success">Available</span>
+        {% else %}
+          <span class="badge danger">Not Available</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

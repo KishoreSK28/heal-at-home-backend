@@ -1,0 +1,127 @@
+{% extends "admin_panel/base.html" %}
+{% block title %}Availability{% endblock %}
+
+{% block content %}
+<style>
+  .availability-card {
+    max-width: 650px;
+    padding: 32px;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+    margin: 0 auto; /* Center the card */
+  }
+
+  .availability-card h2 {
+    margin-bottom: 24px;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  /* Make the checkbox larger for easier tapping on mobile */
+  .toggle-row input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  .status-pill {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .status-yes {
+    background: #ecfdf5;
+    color: #047857;
+  }
+
+  .status-no {
+    background: #fef2f2;
+    color: #b91c1c;
+  }
+
+  .save-btn {
+    margin-top: 16px;
+    padding: 12px 22px;
+    background: #0f766e;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .save-btn:hover {
+    background: #115e59;
+  }
+
+  /* Mobile Adjustments */
+  @media (max-width: 600px) {
+    .availability-card {
+      padding: 20px;
+      margin: 10px; /* Add slight margin so it doesn't touch screen edges */
+      border-radius: 15px;
+    }
+
+    .availability-card h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .save-btn {
+      width: 100%; /* Full width button for easier thumb access */
+      padding: 15px;
+      font-size: 16px;
+    }
+
+    .toggle-row {
+      font-size: 18px; /* Larger text for readability */
+    }
+  }
+</style>
+
+<div class="availability-card">
+  <h2>Physiotherapist Availability</h2>
+
+  <form method="post" action="{% url 'save_availability' %}">
+    {% csrf_token %}
+
+    <div class="toggle-row">
+      <input
+        type="checkbox"
+        id="is_available"
+        name="is_available"
+        {% if today and today.is_available and not today.manually_closed %}checked{% endif %}
+      >
+      <label for="is_available">Available Today</label>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+      <strong>Status:</strong>
+      {% if today and today.is_available and not today.manually_closed %}
+        <span class="status-pill status-yes">Available</span>
+      {% else %}
+        <span class="status-pill status-no">Not Available</span>
+      {% endif %}
+    </div>
+
+    <p style="color:#6b7280; font-size:14px; line-height: 1.5;">
+      ℹ Availability automatically expires when time ends or can be closed manually anytime.
+    </p>
+
+    <button type="submit" class="save-btn">Save Availability</button>
+  </form>
+</div>
+{% endblock %}
