@@ -165,8 +165,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-if os.getenv("AUTO_SETUP") == "True":
-    import subprocess
-    subprocess.run(["python", "manage.py", "migrate"])
-    subprocess.run(["python", "manage.py", "init_admin"])
-    subprocess.run(["python", "manage.py", "collectstatic", "--noinput"])
