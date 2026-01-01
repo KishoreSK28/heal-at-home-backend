@@ -125,6 +125,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = "/panel/login/"
+LOGIN_REDIRECT_URL = "/panel/dashboard/"
+LOGOUT_REDIRECT_URL = "/panel/login/"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -158,7 +162,8 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://yourflutterdomain.com"
+    "https://yourflutterdomain.com",
+     "https://heal-at-home-backend.onrender.com",
 ]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
