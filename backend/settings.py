@@ -30,7 +30,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost" , "heal-at-home-backend.onrender.com"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://heal-at-home-backend.onrender.com",
+]
 
 
 # Application definition
@@ -87,7 +90,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if DATABASE_URL:
-    import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
@@ -156,9 +158,9 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://heal-at-home-backend.onrender.com"
+    "https://yourflutterdomain.com"
 ]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [BASE_DIR / 'static']
