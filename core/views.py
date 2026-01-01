@@ -7,6 +7,8 @@ from urllib.parse import quote_plus
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.core.management import call_command
 
 from .models import Service, PhysiotherapistAvailability, AppointmentRequest
 from .serializers import (
@@ -15,6 +17,11 @@ from .serializers import (
     AppointmentRequestSerializer,
 )
 
+def setup_once(request):
+    call_command("migrate")
+    call_command("init_admin")
+    call_command("collectstatic", interactive=False)
+    return HttpResponse("✅ Setup completed")
 # ======================================================
 # PRIVATE ADMIN VIEWS
 # ======================================================
