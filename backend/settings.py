@@ -33,6 +33,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ["127.0.0.1", "localhost" , "heal-at-home-backend.onrender.com"]
 CSRF_TRUSTED_ORIGINS = [
     "https://heal-at-home-backend.onrender.com",
+    "https://heal-at-home-rust.vercel.app"
 ]
 
 
@@ -151,7 +152,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        "rest_framework.permissions.AllowAny",
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -162,9 +163,12 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://yourflutterdomain.com",
+    "https://heal-at-home-rust.vercel.app",
      "https://heal-at-home-backend.onrender.com",
 ]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
