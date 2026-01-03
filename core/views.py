@@ -17,11 +17,11 @@ from .serializers import (
     AppointmentRequestSerializer,
 )
 
-def setup_once(request):
-    call_command("migrate")
-    call_command("init_admin")
-    call_command("collectstatic", interactive=False)
-    return HttpResponse("✅ Setup completed")
+# def setup_once(request):
+#     call_command("migrate")
+#     call_command("init_admin")
+#     call_command("collectstatic", interactive=False)
+#     return HttpResponse("✅ Setup completed")
 # ======================================================
 # PRIVATE ADMIN VIEWS
 # ======================================================

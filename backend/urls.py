@@ -27,6 +27,6 @@ urlpatterns = [
     #admin panel urls
     path('panel/', include('core.panel_urls')),
     
-    path('setup_once/', setup_once, name='setup_once'),
+    # path('setup_once/', setup_once, name='setup_once'),
     
 ]
