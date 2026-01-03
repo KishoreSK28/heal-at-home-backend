@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
-from core.views import admin_login, setup_once
+from core.views import admin_login
 
 
 urlpatterns = [
